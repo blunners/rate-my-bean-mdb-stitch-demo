@@ -1,0 +1,15 @@
+.add-review-button {
+  height: 75px;
+  width: 75px;
+  background-color: chocolate;
+  border-radius: 50%;
+  font-size: 50px;
+  color: white;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.add-review-button:hover {
+  filter: brightness(70%);
+  cursor: pointer;
+}

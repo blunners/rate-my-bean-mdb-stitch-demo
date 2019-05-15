@@ -1,12 +1,9 @@
+import { Stitch } from 'mongodb-stitch-browser-sdk';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
-import * as serviceWorker from './serviceWorker';
+import { STITCH_APP_ID } from './Constants';
+import './index.css';
 
+Stitch.initializeDefaultAppClient(STITCH_APP_ID);
 ReactDOM.render(<App />, document.getElementById('root'));
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
