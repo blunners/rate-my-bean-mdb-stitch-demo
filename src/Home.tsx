@@ -7,7 +7,9 @@ import './Home.css';
 
 const getReviews = async () => {
   const stitchClient = Stitch.getAppClient(STITCH_APP_ID);
-  await stitchClient.auth.loginWithCredential(new AnonymousCredential());
+  if (!stitchClient.auth.isLoggedIn) {
+    await stitchClient.auth.loginWithCredential(new AnonymousCredential());
+  }
   const db = stitchClient.getServiceClient(RemoteMongoClient.factory, 'rate-my-bean');
   const reviewCollection = db.db('rate-my-bean-web').collection<BeanReview>('bean-reviews');
 
@@ -21,7 +23,7 @@ const Home = () => {
 
   useEffect(() => {
     getReviews().then(r => setReviews(r));
-  });
+  }, []);
 
   return (
     <>
