@@ -2,13 +2,13 @@ import { RemoteMongoClient } from 'mongodb-stitch-browser-sdk';
 import React, { useContext, useEffect, useState } from 'react';
 import AddReviewButton from './AddReviewButton';
 import { AuthContext } from './AuthContext';
-import { BeanReview } from './BeanReview';
+import BeanReview, { BeanReviewModel } from './BeanReview';
 import './Home.css';
 import StitchClient from './StitchClient';
 
 const getReviews = async () => {
   const db = StitchClient.getServiceClient(RemoteMongoClient.factory, 'rate-my-bean');
-  const reviewCollection = db.db('rate-my-bean-web').collection<BeanReview>('bean-reviews');
+  const reviewCollection = db.db('rate-my-bean-web').collection<BeanReviewModel>('bean-reviews');
 
   const reviews = await reviewCollection.find({}).toArray();
 
@@ -16,7 +16,7 @@ const getReviews = async () => {
 }
 
 const Home = () => {
-  const [reviews, setReviews] = useState([] as BeanReview[]);
+  const [reviews, setReviews] = useState([] as BeanReviewModel[]);
   const authContext = useContext(AuthContext);
 
   useEffect(() => {
@@ -24,17 +24,19 @@ const Home = () => {
   }, []);
 
   return (
-    <>
-      <div>
+    <div>
+      <div className="reviews">
         {reviews.map(review => (
-          <div>{review.id}</div>
+          <div className="review-item" key={review._id.toString()}>
+            <BeanReview review={review} />
+          </div>
         ))}
       </div>
       {authContext.isAuthenticated &&
       <div className="add-review">
         <AddReviewButton />
       </div>}
-    </>
+    </div>
   )
 }
 

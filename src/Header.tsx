@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { AuthContext } from './AuthContext';
 import './Header.css';
 import logo from './logo.png';
@@ -10,7 +11,9 @@ const Header: React.FC = () => {
     <>
       <header>
         <div>
-          <img className="header" src={logo} />
+          <Link to="/">
+            <img className="header" src={logo} />
+          </Link>
           <div>
             {isAuthenticated ?
               (<div>

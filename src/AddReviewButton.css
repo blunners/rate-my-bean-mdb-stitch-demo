@@ -13,3 +13,8 @@
   filter: brightness(70%);
   cursor: pointer;
 }
+
+a.add-review-button {
+  text-decoration: none;
+}
+

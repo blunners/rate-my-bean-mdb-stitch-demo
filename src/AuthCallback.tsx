@@ -3,9 +3,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { AuthContext } from "./AuthContext";
 import LoadingSpinner from './LoadingSpinner';
 
-const AuthCallback = (props: RouteComponentProps) => {
-  const { history } = props;
-
+const AuthCallback = ({history}: RouteComponentProps) => {
   const authContext = useContext(AuthContext);
   useEffect(() => {
     authContext.completeOauthLogin();

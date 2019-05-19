@@ -1,6 +1,7 @@
 import { AnonymousCredential } from 'mongodb-stitch-browser-sdk';
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import AddReview from './AddReview';
 import './App.css';
 import AuthCallback from './AuthCallback';
 import { AuthProvider } from './AuthContext';
@@ -40,6 +41,7 @@ const App: React.FC = () => {
               <Header />
               <Route path="/" exact component={Home} />
               <Route path="/auth-callback" component={AuthCallback} />
+              <Route path="/add-review" component={AddReview} />
             </AuthProvider>
           )}
       </div>
