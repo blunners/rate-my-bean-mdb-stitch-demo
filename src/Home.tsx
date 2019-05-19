@@ -1,6 +1,7 @@
 import { RemoteMongoClient } from 'mongodb-stitch-browser-sdk';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import AddReviewButton from './AddReviewButton';
+import { AuthContext } from './AuthContext';
 import { BeanReview } from './BeanReview';
 import './Home.css';
 import StitchClient from './StitchClient';
@@ -16,6 +17,7 @@ const getReviews = async () => {
 
 const Home = () => {
   const [reviews, setReviews] = useState([] as BeanReview[]);
+  const authContext = useContext(AuthContext);
 
   useEffect(() => {
     getReviews().then(r => setReviews(r));
@@ -28,9 +30,10 @@ const Home = () => {
           <div>{review.id}</div>
         ))}
       </div>
+      {authContext.isAuthenticated &&
       <div className="add-review">
         <AddReviewButton />
-      </div>
+      </div>}
     </>
   )
 }
