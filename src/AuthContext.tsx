@@ -14,15 +14,24 @@ export interface AuthState {
   logout: () => Promise<void>;
 }
 
-export const AuthContext = createContext({} as AuthState);
-const AuthProvider: React.FC = ({ children }) => {
+interface AuthContextProps {
+  onLoading: () => void;
+  onLoaded: () => void;
+}
+
+const AuthContext = createContext({} as AuthState);
+const AuthProvider: React.FC<AuthContextProps> = ({ onLoaded, onLoading, children }) => {
   const beginOauthLogin = () => {
+    onLoading();
     const credential = new GoogleRedirectCredential(`${window.location.origin}/auth-callback`);
     StitchClient.auth.loginWithRedirect(credential);
+    onLoaded();
   }
 
   const completeOauthLogin = async () => {
     if (StitchClient.auth.hasRedirectResult) {
+      onLoading();
+
       try {
         const user = await StitchClient.auth.handleRedirectResult();
         const newState: AuthState = {
@@ -36,12 +45,12 @@ const AuthProvider: React.FC = ({ children }) => {
         };
         setAuthState(newState);
       } catch { }
+
+      onLoaded();
     }
   }
 
-  const isAuthenticated = () => {
-    return StitchClient.auth.isLoggedIn && StitchClient.auth.user!.loggedInProviderType !== 'anon-user';
-  }
+  const isAuthenticated = () => StitchClient.auth.isLoggedIn && StitchClient.auth.user!.loggedInProviderType !== 'anon-user';
 
   const logout = async () => {
     await StitchClient.auth.logout();
@@ -69,7 +78,5 @@ const AuthProvider: React.FC = ({ children }) => {
   );
 }
 
-const AuthConsumer = AuthContext.Consumer;
-
-export { AuthProvider, AuthConsumer };
+export { AuthContext, AuthProvider };
 

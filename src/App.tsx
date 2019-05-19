@@ -12,22 +12,31 @@ import StitchClient from './StitchClient';
 const App: React.FC = () => {
   const [clientAuthentication, setClientAuthentication] = useState({
     appAuthenticated: StitchClient.auth.isLoggedIn,
+    loading: false
   });
   useEffect(() => {
     if (!clientAuthentication.appAuthenticated) {
       StitchClient.auth.loginWithCredential(new AnonymousCredential())
         .then(user => setClientAuthentication({
-          appAuthenticated: true
+          appAuthenticated: true,
+          loading: false
         }));
     }
   }, [clientAuthentication]);
 
+  const setLoading = (loading: boolean) => {
+    setClientAuthentication({
+      appAuthenticated: true,
+      loading
+    });
+  }
+
   return (
     <Router>
       <div className="App">
-        {!clientAuthentication.appAuthenticated ?
+        {!clientAuthentication.appAuthenticated || clientAuthentication.loading ?
           <LoadingSpinner /> : (
-            <AuthProvider>
+            <AuthProvider onLoading={() => setLoading(true)} onLoaded={() => setLoading(false)}>
               <Header />
               <Route path="/" exact component={Home} />
               <Route path="/auth-callback" component={AuthCallback} />

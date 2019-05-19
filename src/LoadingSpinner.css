@@ -1,6 +1,7 @@
 img.spinner {
   height: 100px;
   animation: spin 4s linear infinite;
+  margin: 10px;
 }
 
 p.spinner {

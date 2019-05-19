@@ -1,13 +1,18 @@
-import { useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { AuthContext } from "./AuthContext";
+import LoadingSpinner from './LoadingSpinner';
 
-const AuthCallback = () => {
+const AuthCallback = (props: RouteComponentProps) => {
+  const { history } = props;
+
   const authContext = useContext(AuthContext);
   useEffect(() => {
-    authContext.completeOauthLogin()
-  }, [authContext]);
+    authContext.completeOauthLogin();
+    history.push('/');
+  }, [authContext, history]);
 
-  return null;
+  return <LoadingSpinner />
 }
 
-export default AuthCallback;
+export default withRouter(AuthCallback);
