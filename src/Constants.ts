@@ -1,1 +1,0 @@
-export const STITCH_APP_ID = 'ratemybeanapp-pbhik';

@@ -1,16 +1,12 @@
-import { AnonymousCredential, RemoteMongoClient, Stitch } from 'mongodb-stitch-browser-sdk';
+import { RemoteMongoClient } from 'mongodb-stitch-browser-sdk';
 import React, { useEffect, useState } from 'react';
 import AddReviewButton from './AddReviewButton';
 import { BeanReview } from './BeanReview';
-import { STITCH_APP_ID } from './Constants';
 import './Home.css';
+import StitchClient from './StitchClient';
 
 const getReviews = async () => {
-  const stitchClient = Stitch.getAppClient(STITCH_APP_ID);
-  if (!stitchClient.auth.isLoggedIn) {
-    await stitchClient.auth.loginWithCredential(new AnonymousCredential());
-  }
-  const db = stitchClient.getServiceClient(RemoteMongoClient.factory, 'rate-my-bean');
+  const db = StitchClient.getServiceClient(RemoteMongoClient.factory, 'rate-my-bean');
   const reviewCollection = db.db('rate-my-bean-web').collection<BeanReview>('bean-reviews');
 
   const reviews = await reviewCollection.find({}).toArray();

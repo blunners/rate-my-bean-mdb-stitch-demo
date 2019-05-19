@@ -1,24 +1,13 @@
-import { Stitch } from "mongodb-stitch-browser-sdk";
-import React, { useEffect } from 'react';
-import { STITCH_APP_ID } from "./Constants";
-
-const handleCallback = async () => {
-  const client = Stitch.getAppClient(STITCH_APP_ID);
-  if (client.auth.hasRedirectResult) {
-    const user = await client.auth.handleRedirectResult();
-
-    console.log(user);
-  }
-
-  window.location.pathname = '/';
-}
+import { useContext, useEffect } from 'react';
+import { AuthContext } from "./AuthContext";
 
 const AuthCallback = () => {
+  const authContext = useContext(AuthContext);
   useEffect(() => {
-    handleCallback();
-  });
+    authContext.completeOauthLogin()
+  }, [authContext]);
 
-  return <div>Loading...</div>
+  return null;
 }
 
 export default AuthCallback;

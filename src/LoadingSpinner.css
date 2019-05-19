@@ -1,0 +1,10 @@
+img.spinner {
+  height: 100px;
+  animation: spin 4s linear infinite;
+}
+
+p.spinner {
+  font-size: 24px;
+}
+
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
