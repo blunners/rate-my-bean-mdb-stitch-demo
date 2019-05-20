@@ -1,6 +1,10 @@
 img.header {
   margin: 10px 0;
-  max-height: 100px;
+  max-height: 80px;
+}
+
+header .row {
+  align-items: center;
 }
 
 button.header {

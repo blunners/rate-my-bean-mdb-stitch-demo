@@ -10,19 +10,21 @@ const Header: React.FC = () => {
   return (
     <>
       <header>
-        <div>
-          <Link to="/">
-            <img className="header" src={logo} />
-          </Link>
-          <div>
+        <div className="row">
+          <div className="col-lg-6 offset-lg-3">
+            <Link to="/">
+              <img className="header" src={logo} />
+            </Link>
+          </div>
+          <div className="col text-left">
             {isAuthenticated ?
               (<div>
-                <span>
+                <span className="align-middle">
                   Hello, {user!.name}
                 </span>
-                <button className="header" onClick={logout}>Logout</button>
+                <button className="btn btn-link" onClick={logout}>Logout</button>
               </div>) :
-              <button className="header" onClick={beginOauthLogin}>Login</button>}
+              <button className="btn btn-link" onClick={beginOauthLogin}>Login</button>}
           </div>
         </div>
       </header>

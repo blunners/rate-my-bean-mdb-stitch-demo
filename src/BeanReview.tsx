@@ -1,3 +1,4 @@
+import { StitchUser } from 'mongodb-stitch-browser-sdk';
 import React from 'react';
 
 export interface BeanReviewModel extends AddBeanReviewModel {
@@ -17,14 +18,24 @@ export interface BeanModel {
   origin: string;
 }
 
-interface BeanReviewProps {
-  review: BeanReviewModel;
+interface User {
+  name: string;
 }
 
-const BeanReview = ({review}: BeanReviewProps) => (
+interface BeanReviewProps {
+  review: BeanReviewModel;
+  user: StitchUser | undefined;
+}
+
+const BeanReview = ({ review, user }: BeanReviewProps) => (
   <div>
-    {review._id.toString()}
+    <div>
+      Title: {review.title}
+    </div>
+    <div>
+      User: {(user && user.profile && user.profile.name) || 'unknown'}
+    </div>
   </div>
-)
+);
 
 export default BeanReview;
