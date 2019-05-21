@@ -9,7 +9,7 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <header>
+      <header className="text-center">
         <div className="row">
           <div className="col-lg-6 offset-lg-3">
             <Link to="/">

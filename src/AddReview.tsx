@@ -2,8 +2,9 @@ import { RemoteMongoClient } from 'mongodb-stitch-browser-sdk';
 import React, { useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import StitchClient from './StitchClient';
+import { AddBeanReviewModel } from './BeanReview';
 
-class AddBeanReview implements AddBeanReview {
+class AddBeanReview implements AddBeanReviewModel {
   constructor(userId: string) {
     this.userId = userId;
   }
@@ -14,12 +15,13 @@ class AddBeanReview implements AddBeanReview {
   bean = {
     name: '',
     origin: '',
-  }
+  };
   userId: string;
 }
 
 const AddReview = ({ history }: RouteComponentProps) => {
   const [beanReview, setBeanReview] = useState(new AddBeanReview(StitchClient.auth.user!.id));
+  const [img, setImage] = useState<File>();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -27,7 +29,20 @@ const AddReview = ({ history }: RouteComponentProps) => {
     const serviceClient = StitchClient.getServiceClient(RemoteMongoClient.factory, 'rate-my-bean');
     const reviewCollection = serviceClient.db('rate-my-bean-web').collection<AddBeanReview>('bean-reviews');
 
-    await reviewCollection.insertOne(beanReview);
+    const result = await reviewCollection.insertOne(beanReview);
+
+    if (img) {
+      var reader = new FileReader();
+      reader.onload = async () => {
+        var url = reader.result;
+        await StitchClient.callFunction('uploadImg', [result.insertedId.toString(), url]);
+        history.push('/');
+      }
+
+      reader.readAsDataURL(img);
+      return;
+    }
+
     history.push('/');
   }
 
@@ -66,6 +81,7 @@ const AddReview = ({ history }: RouteComponentProps) => {
       Review
       <input type="text" value={beanReview.content} name="content" onChange={handleChange} />
     </label>
+    <input type="file" onChange={(e) => { debugger; setImage(e.target.files![0]); }} name="imgData" accept="image/*" />
     <input type="submit" value="Submit" />
   </form>
 }
