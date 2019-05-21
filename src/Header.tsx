@@ -7,6 +7,11 @@ import logo from './logo.png';
 const Header: React.FC = () => {
   const { isAuthenticated, user, logout, beginOauthLogin } = useContext(AuthContext);
 
+  const onLogout = async () => {
+    await logout();
+    window.location.pathname = '/';
+  }
+
   return (
     <>
       <header className="text-center">
@@ -22,7 +27,7 @@ const Header: React.FC = () => {
                 <span className="align-middle">
                   Hello, {user!.name}
                 </span>
-                <button className="btn btn-link" onClick={logout}>Logout</button>
+                <button className="btn btn-link" onClick={onLogout}>Logout</button>
               </div>) :
               <button className="btn btn-link" onClick={beginOauthLogin}>Login</button>}
           </div>

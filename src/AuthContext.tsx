@@ -43,7 +43,6 @@ const AuthProvider: React.FC = ({ children }) => {
 
   const logout = async () => {
     await StitchClient.auth.logout();
-    setAuthState(getDefaultAuthState());
   }
 
   const getDefaultAuthState: () => AuthState = () => {

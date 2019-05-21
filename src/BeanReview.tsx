@@ -1,6 +1,7 @@
 import { StitchUser } from 'mongodb-stitch-browser-sdk';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './BeanReview.css';
+import Loading from './Loading';
 
 export interface BeanReviewModel extends AddBeanReviewModel {
   _id: string;
@@ -35,24 +36,31 @@ const BeanReview = ({ review, user, onImageRequest }: BeanReviewProps) => {
   }, [onImageRequest, review._id]);
 
   return (
-    <div className="bean-review-wrapper">
-      <div>
-        <h2>{review.bean.name}</h2>
-        <span>{review.bean.origin}</span>
+    <div>
+      <div className="row">
+        <div className="col-lg-9">
+          <div>
+            <h2>{review.bean.name}</h2>
+            <span>{review.bean.origin}</span>
+          </div>
+          <div className="h4 font-italic">{review.title} - {review.rating}/5</div>
+          <div>
+            <p className="text-justify">
+              {review.content}
+            </p>
+          </div>
+          <div className="font-italic">
+            {(user && user.profile && user.profile.name) || 'unknown'}
+          </div>
+        </div>
+        <div className="col-lg-3 text-center">
+          <div>
+            {img ?
+            <img src={img} className="img-fluid bean" alt="beans" /> :
+            <Loading className="img-fluid bean" />}
+          </div>
+        </div>
       </div>
-      <div className="h4 font-italic">{review.title} - {review.rating}/5</div>
-      <div>
-        <img src={img} alt="beans" />
-      </div>
-      <div>
-        <p>
-          {review.content}
-        </p>
-      </div>
-      <div className="font-italic">
-        {(user && user.profile && user.profile.name) || 'unknown'}
-      </div>
-
       <hr />
     </div>
   )

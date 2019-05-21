@@ -1,8 +1,8 @@
 import { RemoteMongoClient } from 'mongodb-stitch-browser-sdk';
 import React, { useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
-import StitchClient from './StitchClient';
 import { AddBeanReviewModel } from './BeanReview';
+import StitchClient from './StitchClient';
 
 class AddBeanReview implements AddBeanReviewModel {
   constructor(userId: string) {
@@ -46,7 +46,7 @@ const AddReview = ({ history }: RouteComponentProps) => {
     history.push('/');
   }
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const review = { ...beanReview, [event.target.name]: event.target.value };
     setBeanReview(review);
   }
@@ -79,9 +79,9 @@ const AddReview = ({ history }: RouteComponentProps) => {
     </label>
     <label>
       Review
-      <input type="text" value={beanReview.content} name="content" onChange={handleChange} />
+      <textarea rows={5} value={beanReview.content} name="content" onChange={handleChange} />
     </label>
-    <input type="file" onChange={(e) => { debugger; setImage(e.target.files![0]); }} name="imgData" accept="image/*" />
+    <input type="file" onChange={(e) => { setImage(e.target.files![0]); }} name="imgData" accept="image/*" />
     <input type="submit" value="Submit" />
   </form>
 }
