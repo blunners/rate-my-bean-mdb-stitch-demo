@@ -37,7 +37,7 @@ const Home = () => {
   return (
     <div>
       <div className="reviews">
-        {users.length && reviews.length && reviews.map(review => (
+        {users.length > 0 && reviews.length > 0 && reviews.map(review => (
           <div className="review-item" key={review._id.toString()}>
             <BeanReview review={review} user={users.find(x => x.id === review.userId)} />
           </div>

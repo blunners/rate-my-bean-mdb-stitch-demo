@@ -13,7 +13,7 @@ const Header: React.FC = () => {
         <div className="row">
           <div className="col-lg-6 offset-lg-3">
             <Link to="/">
-              <img className="header" src={logo} />
+              <img className="header" alt="logo" src={logo} />
             </Link>
           </div>
           <div className="col text-left">

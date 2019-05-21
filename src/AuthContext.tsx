@@ -14,24 +14,15 @@ export interface AuthState {
   logout: () => Promise<void>;
 }
 
-interface AuthContextProps {
-  onLoading: () => void;
-  onLoaded: () => void;
-}
-
 const AuthContext = createContext({} as AuthState);
-const AuthProvider: React.FC<AuthContextProps> = ({ onLoaded, onLoading, children }) => {
+const AuthProvider: React.FC = ({ children }) => {
   const beginOauthLogin = () => {
-    onLoading();
     const credential = new GoogleRedirectCredential(`${window.location.origin}/auth-callback`);
     StitchClient.auth.loginWithRedirect(credential);
-    onLoaded();
   }
 
   const completeOauthLogin = async () => {
     if (StitchClient.auth.hasRedirectResult) {
-      onLoading();
-
       try {
         const user = await StitchClient.auth.handleRedirectResult();
         const newState: AuthState = {
@@ -45,8 +36,6 @@ const AuthProvider: React.FC<AuthContextProps> = ({ onLoaded, onLoading, childre
         };
         setAuthState(newState);
       } catch { }
-
-      onLoaded();
     }
   }
 

@@ -4,7 +4,7 @@ import './LoadingSpinner.css';
 
 const LoadingSpinner = () => (
   <div>
-    <img className="spinner" src={bean} />
+    <img className="spinner" alt="spinner" src={bean} />
     <p className="spinner">Loading</p>
   </div>
 );

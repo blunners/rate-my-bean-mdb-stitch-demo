@@ -12,36 +12,32 @@ import StitchClient from './StitchClient';
 
 const App: React.FC = () => {
   const [clientAuthentication, setClientAuthentication] = useState({
-    appAuthenticated: StitchClient.auth.isLoggedIn,
-    loading: false
+    appAuthenticated: StitchClient.auth.isLoggedIn
   });
+
   useEffect(() => {
     if (!clientAuthentication.appAuthenticated) {
       StitchClient.auth.loginWithCredential(new AnonymousCredential())
         .then(user => setClientAuthentication({
-          appAuthenticated: true,
-          loading: false
+          appAuthenticated: true
         }));
     }
   }, [clientAuthentication]);
 
-  const setLoading = (loading: boolean) => {
-    setClientAuthentication({
-      appAuthenticated: true,
-      loading
-    });
-  }
-
   return (
     <Router>
       <div className="App">
-        {!clientAuthentication.appAuthenticated || clientAuthentication.loading ?
+        {!clientAuthentication.appAuthenticated ?
           <LoadingSpinner /> : (
-            <AuthProvider onLoading={() => setLoading(true)} onLoaded={() => setLoading(false)}>
-              <Header />
-              <Route path="/" exact component={Home} />
-              <Route path="/auth-callback" component={AuthCallback} />
-              <Route path="/add-review" component={AddReview} />
+            <AuthProvider>
+              <div className="container-fluid">
+                <Header />
+              </div>
+              <div className="container">
+                <Route path="/" exact component={Home} />
+                <Route path="/auth-callback" component={AuthCallback} />
+                <Route path="/add-review" component={AddReview} />
+              </div>
             </AuthProvider>
           )}
       </div>
