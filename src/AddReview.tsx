@@ -57,33 +57,40 @@ const AddReview = ({ history }: RouteComponentProps) => {
     setBeanReview(review);
   }
 
-  return <form onSubmit={handleSubmit}>
-    <h2>Bean Details</h2>
-    <fieldset>
-      <label>
-        Name
-      <input type="text" value={beanReview.bean.name} name="name" onChange={handleBeanChange} />
-      </label>
-      <label>
-        Origin
-      <input type="text" value={beanReview.bean.origin} name="origin" onChange={handleBeanChange} />
-      </label>
-    </fieldset>
-    <label>
-      Title
-      <input type="text" value={beanReview.title} name="title" onChange={handleChange} />
-    </label>
-    <label>
-      Rating
-      <input type="number" min="1" max="5" step="1" value={beanReview.rating} name="rating" onChange={handleChange} />
-    </label>
-    <label>
-      Review
-      <textarea rows={5} value={beanReview.content} name="content" onChange={handleChange} />
-    </label>
-    <input type="file" onChange={(e) => { setImage(e.target.files![0]); }} name="imgData" accept="image/*" />
-    <input type="submit" value="Submit" />
-  </form>
+  return (
+    <form onSubmit={handleSubmit}>
+      <div className="row">
+        <div className="col-lg-6">
+          <h2>Bean Details</h2>
+          <div className="form-group">
+            <label htmlFor="name">Name</label>
+            <input type="text" value={beanReview.bean.name} id="name" name="name" className="form-control" onChange={handleBeanChange} />
+          </div>
+          <div className="form-group">
+            <label htmlFor="origin">Origin</label>
+            <input type="text" value={beanReview.bean.origin} id="origin" name="origin" className="form-control" onChange={handleBeanChange} />
+          </div>
+          <div className="form-group">
+            <label htmlFor="title">Title</label>
+            <input type="text" value={beanReview.title} id="title" name="title" className="form-control" onChange={handleChange} />
+          </div>
+          <div className="form-group">
+            <label htmlFor="rating">Rating</label>
+            <input type="number" min="1" max="5" step="1" value={beanReview.rating} id="rating" name="rating" className="form-control" onChange={handleChange} />
+          </div>
+          <div className="form-group">
+            <label htmlFor="content">Your Review</label>
+            <textarea value={beanReview.content} rows={10} id="content" name="content" className="form-control" onChange={handleChange} />
+          </div>
+          <div className="form-group">
+            <label htmlFor="imgData">Upload your bean</label>
+            <input type="file" className="form-control-file" onChange={(e) => { setImage(e.target.files![0]); }} id="imgData" name="imgData" accept="image/*" />
+          </div>
+          <button type="submit" className="btn btn-primary" value="Submit">Submit</button>
+        </div>
+      </div>
+    </form>
+  )
 }
 
 export default withRouter(AddReview);
