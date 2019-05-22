@@ -1,0 +1,8 @@
+{
+    "id": "5ce3f76bae1f22874b471b1d",
+    "name": "s3",
+    "actions": [
+        "s3:GetObject",
+        "s3:PutObject"
+    ]
+}

@@ -1,0 +1,11 @@
+{
+    "id": "5cdc2775012f2a1b7bdca933",
+    "name": "rate-my-bean",
+    "type": "mongodb-atlas",
+    "config": {
+        "clusterName": "rate-my-bean-c1",
+        "readPreference": "primary",
+        "wireProtocolEnabled": false
+    },
+    "version": 1
+}

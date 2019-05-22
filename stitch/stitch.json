@@ -1,0 +1,12 @@
+{
+    "app_id": "ratemybeanapp-pbhik",
+    "config_version": 20180301,
+    "name": "RateMyBeanApp",
+    "location": "IE",
+    "deployment_model": "LOCAL",
+    "security": {},
+    "hosting": {
+        "enabled": false,
+        "app_default_domain": "ratemybeanapp-pbhik.mongodbstitch.com"
+    }
+}

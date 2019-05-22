@@ -1,0 +1,12 @@
+{
+    "id": "5ce3f708c89261d6a145a7a6",
+    "name": "rate-my-bean-aws",
+    "type": "aws",
+    "config": {
+        "accessKeyId": "AKIAQGJHQFBCOUXEVEOL"
+    },
+    "secret_config": {
+        "secretAccessKey": "rate-my-bean-aws"
+    },
+    "version": 1
+}

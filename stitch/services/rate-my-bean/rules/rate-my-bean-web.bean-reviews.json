@@ -1,0 +1,49 @@
+{
+    "id": "5cdc6dcd8435940c85dbe495",
+    "database": "rate-my-bean-web",
+    "collection": "bean-reviews",
+    "filters": [
+        {
+            "name": "filter 1",
+            "query": {},
+            "apply_when": {}
+        }
+    ],
+    "roles": [
+        {
+            "name": "review_owner",
+            "apply_when": {
+                "%%true": {
+                    "%function": {
+                        "name": "nonAnonymousReviewOwner",
+                        "arguments": [
+                            "%%root.userId"
+                        ]
+                    }
+                }
+            },
+            "write": true,
+            "insert": true,
+            "delete": true,
+            "additional_fields": {}
+        },
+        {
+            "name": "anon_read",
+            "apply_when": {},
+            "read": true,
+            "insert": false,
+            "delete": false,
+            "additional_fields": {}
+        }
+    ],
+    "schema": {
+        "properties": {
+            "_id": {
+                "bsonType": "objectId"
+            },
+            "userId": {
+                "bsonType": "string"
+            }
+        }
+    }
+}
