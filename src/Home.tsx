@@ -1,3 +1,4 @@
+import { Binary } from 'crypto';
 import { RemoteMongoClient, StitchUser } from 'mongodb-stitch-browser-sdk';
 import React, { useContext, useEffect, useState } from 'react';
 import AddReviewButton from './AddReviewButton';
@@ -5,7 +6,6 @@ import { AuthContext } from './AuthContext';
 import BeanReview, { BeanReviewModel } from './BeanReview';
 import './Home.css';
 import StitchClient from './StitchClient';
-import { Binary } from 'crypto';
 
 const decoder = new TextDecoder();
 
@@ -17,7 +17,10 @@ const getReviews = async () => {
   const client = StitchClient.getServiceClient(RemoteMongoClient.factory, 'rate-my-bean');
   const reviewCollection = client.db('rate-my-bean-web').collection<BeanReviewModel>('bean-reviews');
 
-  const reviews = await reviewCollection.find({}).toArray();
+  const reviews = await reviewCollection.find({}, {
+    sort: {
+      "_id": -1
+  }}).toArray();
 
   return reviews;
 }
