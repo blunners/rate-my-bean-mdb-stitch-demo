@@ -19,6 +19,26 @@ class AddBeanReview implements AddBeanReviewModel {
   userId: string;
 }
 
+const insertReview = async (beanReview: AddBeanReview) => {
+  const serviceClient = StitchClient.getServiceClient(RemoteMongoClient.factory, 'rate-my-bean');
+  const reviewCollection = serviceClient.db('rate-my-bean-web').collection<AddBeanReview>('bean-reviews');
+  const { insertedId }: { insertedId: ObjectId } = await reviewCollection.insertOne(beanReview);
+
+  return insertedId.toString();
+}
+
+const beginUploadImage = (insertedId: string, img: File, onUploaded: () => void) => {
+  var reader = new FileReader();
+  reader.onload = async () => {
+    var url = reader.result;
+    await StitchClient.callFunction('uploadImg', [insertedId, url]);
+    onUploaded();
+  };
+
+  reader.readAsDataURL(img);
+}
+
+
 const AddReview = ({ history }: RouteComponentProps) => {
   const [beanReview, setBeanReview] = useState(new AddBeanReview(StitchClient.auth.user!.id));
   const [img, setImage] = useState<File>();
@@ -26,24 +46,15 @@ const AddReview = ({ history }: RouteComponentProps) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const serviceClient = StitchClient.getServiceClient(RemoteMongoClient.factory, 'rate-my-bean');
-    const reviewCollection = serviceClient.db('rate-my-bean-web').collection<AddBeanReview>('bean-reviews');
-
-    const result = await reviewCollection.insertOne(beanReview);
+    const insertedId = await insertReview(beanReview);
+    const onUploaded = () => history.push('/');
 
     if (img) {
-      var reader = new FileReader();
-      reader.onload = async () => {
-        var url = reader.result;
-        await StitchClient.callFunction('uploadImg', [result.insertedId.toString(), url]);
-        history.push('/');
-      }
-
-      reader.readAsDataURL(img);
+      beginUploadImage(insertedId, img, onUploaded);
       return;
     }
 
-    history.push('/');
+    onUploaded();
   }
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

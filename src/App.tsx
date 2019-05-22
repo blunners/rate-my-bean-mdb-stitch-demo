@@ -7,6 +7,7 @@ import AuthCallback from './AuthCallback';
 import { AuthProvider } from './AuthContext';
 import Header from './Header';
 import Home from './Home';
+import Loading from './Loading';
 import StitchClient from './StitchClient';
 
 const App: React.FC = () => {
@@ -27,7 +28,7 @@ const App: React.FC = () => {
     <Router>
       <div className="App">
         {!clientAuthentication.appAuthenticated ?
-          <div>Loading&hellip;</div> : (
+          <div className="text-center"><Loading /></div> : (
             <AuthProvider>
               <div className="container-fluid">
                 <Header />
