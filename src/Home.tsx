@@ -1,5 +1,5 @@
 import { Binary } from 'crypto';
-import { RemoteMongoClient, StitchUser } from 'mongodb-stitch-browser-sdk';
+import { RemoteMongoClient } from 'mongodb-stitch-browser-sdk';
 import React, { useContext, useEffect, useState } from 'react';
 import AddReviewButton from './AddReviewButton';
 import { AuthContext } from './AuthContext';
@@ -25,12 +25,6 @@ const getReviews = async () => {
   return reviews;
 }
 
-const getUsers = async () => {
-  const users = await StitchClient.auth.listUsers();
-
-  return users;
-}
-
 const retrieveImage = async (id: string) => {
   const img: S3File = await StitchClient.callFunction('getImg', [id]);
   if (img) {
@@ -48,17 +42,12 @@ const Home = () => {
     getReviews().then(r => setReviews(r));
   }, []);
 
-  const [users, setUsers] = useState([] as StitchUser[]);
-  useEffect(() => {
-    getUsers().then(u => setUsers(u));
-  }, []);
-
   return (
     <div>
       <div className="row">
-        {users.length > 0 && reviews.length > 0 && reviews.map(review => (
+        {reviews.map(review => (
           <div className="col-sm-12" key={review._id.toString()}>
-            <BeanReview review={review} onImageRequest={retrieveImage} user={users.find(x => x.id === review.userId)} />
+            <BeanReview review={review} onImageRequest={retrieveImage} />
           </div>
         ))}
       </div>

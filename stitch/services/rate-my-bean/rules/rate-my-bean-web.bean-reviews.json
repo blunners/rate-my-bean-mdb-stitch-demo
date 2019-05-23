@@ -2,13 +2,6 @@
     "id": "5cdc6dcd8435940c85dbe495",
     "database": "rate-my-bean-web",
     "collection": "bean-reviews",
-    "filters": [
-        {
-            "name": "filter 1",
-            "query": {},
-            "apply_when": {}
-        }
-    ],
     "roles": [
         {
             "name": "review_owner",
@@ -17,7 +10,7 @@
                     "%function": {
                         "name": "nonAnonymousReviewOwner",
                         "arguments": [
-                            "%%root.userId"
+                            "%%root.user.id"
                         ]
                     }
                 }
@@ -37,12 +30,31 @@
         }
     ],
     "schema": {
+        "required": [
+            "_id",
+            "user"
+        ],
         "properties": {
             "_id": {
                 "bsonType": "objectId"
             },
-            "userId": {
-                "bsonType": "string"
+            "user": {
+                "required": [
+                    "id",
+                    "firstName",
+                    "surname"
+                ],
+                "properties": {
+                    "id": {
+                        "bsonType": "string"
+                    },
+                    "firstName": {
+                        "bsonType": "string"
+                    },
+                    "surname": {
+                        "bsonType": "string"
+                    }
+                }
             }
         }
     }

@@ -1,12 +1,16 @@
-import { RemoteMongoClient } from 'mongodb-stitch-browser-sdk';
+import { RemoteMongoClient, StitchUser } from 'mongodb-stitch-browser-sdk';
 import React, { useState } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { AddBeanReviewModel } from './BeanReview';
+import { AddBeanReviewModel, UserModel } from './BeanReview';
 import StitchClient from './StitchClient';
 
 class AddBeanReview implements AddBeanReviewModel {
-  constructor(userId: string) {
-    this.userId = userId;
+  constructor(user: StitchUser) {
+    this.user = {
+      id: user.id,
+      firstName: user.profile.firstName || 'Anonymous',
+      surname: user.profile.lastName || ''
+    }
   }
 
   title = '';
@@ -16,7 +20,7 @@ class AddBeanReview implements AddBeanReviewModel {
     name: '',
     origin: '',
   };
-  userId: string;
+  user: UserModel;
 }
 
 const insertReview = async (beanReview: AddBeanReview) => {
@@ -40,7 +44,7 @@ const beginUploadImage = (insertedId: string, img: File, onUploaded: () => void)
 
 
 const AddReview = ({ history }: RouteComponentProps) => {
-  const [beanReview, setBeanReview] = useState(new AddBeanReview(StitchClient.auth.user!.id));
+  const [beanReview, setBeanReview] = useState(new AddBeanReview(StitchClient.auth.user!));
   const [img, setImage] = useState<File>();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

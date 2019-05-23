@@ -1,11 +1,9 @@
-import { StitchUser } from 'mongodb-stitch-browser-sdk';
 import React, { useEffect, useState } from 'react';
 import './BeanReview.css';
 import Loading from './Loading';
 
 export interface BeanReviewModel extends AddBeanReviewModel {
   _id: string;
-  userId: string;
 }
 
 export interface AddBeanReviewModel {
@@ -13,6 +11,13 @@ export interface AddBeanReviewModel {
   rating: number;
   content: string;
   bean: BeanModel;
+  user: UserModel;
+}
+
+export interface UserModel {
+  id: string;
+  firstName: string;
+  surname: string; 
 }
 
 export interface BeanModel {
@@ -22,11 +27,10 @@ export interface BeanModel {
 
 interface BeanReviewProps {
   review: BeanReviewModel;
-  user: StitchUser | undefined;
   onImageRequest: (id: string) => Promise<string | null>
 }
 
-const BeanReview = ({ review, user, onImageRequest }: BeanReviewProps) => {
+const BeanReview = ({ review, onImageRequest }: BeanReviewProps) => {
   const [img, setImg] = useState<string>();
 
   useEffect(() => {
@@ -50,7 +54,7 @@ const BeanReview = ({ review, user, onImageRequest }: BeanReviewProps) => {
             </p>
           </div>
           <div className="font-italic">
-            {(user && user.profile && user.profile.name) || 'unknown'}
+            {`${review.user.firstName} ${review.user.surname}`}
           </div>
         </div>
         <div className="col-lg-3 text-center">
